@@ -1,5 +1,9 @@
 # newsApp
+<img src="https://github.com/girish54321/Flutter-News-App/blob/main/app_image/1.jpg" height="800">
 
+<img src="https://github.com/girish54321/Flutter-News-App/blob/main/app_image/2.jpg" height="800">
+
+<img src="https://github.com/girish54321/Flutter-News-App/blob/main/app_image/3.jpg" height="800">
 A new Flutter project.
 
 ## Getting Started
