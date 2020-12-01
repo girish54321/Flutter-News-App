@@ -32,7 +32,6 @@ class ArticalHeaderImage extends StatelessWidget {
                   ? CachedNetworkImage(
                       imageUrl: imageUrl,
                       imageBuilder: (context, imageProvider) => Container(
-                        // height: 171.00,
                         width: width,
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -42,10 +41,14 @@ class ArticalHeaderImage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4.00),
                         ),
                       ),
-                      placeholder: (context, url) => Center(
-                        child: Icon(
-                          FluentIcons.arrow_left_24_regular,
-                          color: Colors.white,
+                      placeholder: (context, url) => Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('assets/images/placeholder.png'),
+                          ),
+                          borderRadius: BorderRadius.circular(4.00),
                         ),
                       ),
                       errorWidget: (context, url, error) => Icon(Icons.error),

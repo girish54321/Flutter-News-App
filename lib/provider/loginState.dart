@@ -18,9 +18,9 @@ class LoginStateProvider with ChangeNotifier {
       logedIn = true;
       notifyListeners();
       getUserData();
-      print("LOG IN H");
+      print("LOG IN H---------------------------------");
     } else {
-      print("NO LOAGIn");
+      print("NO LOAGIn---------------------------------");
       logedIn = false;
       notifyListeners();
     }

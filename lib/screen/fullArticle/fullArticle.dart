@@ -40,12 +40,31 @@ class _FullArticleState extends State<FullArticle> {
       background: CachedNetworkImage(
         imageUrl: widget.article.urlToImage,
         imageBuilder: (context, imageProvider) => Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: SafeArea(
-            child: Stack(
-              children: [
-                ListTile(
+          width: size.width,
+          height: size.height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Stack(
+            children: [
+              // Container(
+              //   height: 80,
+              //   decoration: BoxDecoration(
+              //     gradient: LinearGradient(
+              //         begin: Alignment.topLeft,
+              //         end: Alignment.topRight,
+              //         colors: [
+              //           Theme.of(context).accentColor,
+              //           Color(0xFFFF2D55),
+              //           Colors.white
+              //         ]),
+              //   ),
+              // ),
+              SafeArea(
+                child: ListTile(
                   title: Text(
                     "NEWS360",
                     textAlign: TextAlign.center,
@@ -72,14 +91,8 @@ class _FullArticleState extends State<FullArticle> {
                     onPressed: () {},
                   ),
                 ),
-              ],
-            ),
-          ),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
+              ),
+            ],
           ),
         ),
         placeholder: (context, url) => CircularProgressIndicator(),

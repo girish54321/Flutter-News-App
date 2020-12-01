@@ -1,14 +1,30 @@
 import 'dart:math';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:newsApp/provider/loginState.dart';
 import 'package:newsApp/screen/homeScreen/homeMain.dart';
 import 'package:newsApp/screen/splashScreen/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:newsApp/screen/homeScreen/NotificationPlugin.dart';
+import 'package:newsApp/modal/NotificationPayload.dart';
+import 'dart:convert';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message ${message.data}");
+  // print(message.data['body']);
+  NotificationPayload notificationPayload =
+      new NotificationPayload.fromJson(message.data);
+  await notificationPlugin.showNotification(
+    notificationPayload,
+  );
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MyApp()); //#FF2D55
 }
 
