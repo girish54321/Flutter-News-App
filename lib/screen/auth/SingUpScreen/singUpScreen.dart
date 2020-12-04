@@ -29,9 +29,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
       print(userCredential);
       addUser(userCredential.user.uid, userNameController.text.trim(),
           emailController.text.trim(), null);
-
       await Helper().showLoadingDilog(context).hide();
-    } on FirebaseAuthException catch (e) {
       getUserData();
       Navigator.pushAndRemoveUntil(
         context,
@@ -40,6 +38,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
         ),
         (route) => false,
       );
+    } on FirebaseAuthException catch (e) {
       await Helper().showLoadingDilog(context).hide();
       if (e.code == 'weak-password') {
         Helper().showSnackBar(
