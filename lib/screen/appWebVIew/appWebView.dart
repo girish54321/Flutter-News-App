@@ -1,6 +1,6 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:newsApp/modal/NotificationPayload.dart';
 import 'package:newsApp/modal/articleListResponse.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +15,9 @@ class PopUpMenueList {
 
 class AppWebView extends StatefulWidget {
   final Article article;
-  AppWebView({Key key, this.article}) : super(key: key);
+  final NotificationPayload notificationPayload;
+  AppWebView({Key key, this.article, this.notificationPayload})
+      : super(key: key);
 
   @override
   _AppWebViewState createState() => _AppWebViewState();
@@ -23,7 +25,7 @@ class AppWebView extends StatefulWidget {
 
 class _AppWebViewState extends State<AppWebView> {
   InAppWebViewController webView;
-  String url = null;
+  String url;
   double progress = 0;
 
   List<PopUpMenueList> popUpMenuList = [
@@ -61,7 +63,12 @@ class _AppWebViewState extends State<AppWebView> {
   void _select(PopUpMenueList popUpMenueList) {
     switch (popUpMenueList.title) {
       case 'Share':
-        Share.share(widget.article.url, subject: widget.article.title);
+        if (widget.article != null) {
+          Share.share(widget.article.url, subject: widget.article.title);
+        } else {
+          Share.share(widget.notificationPayload.link,
+              subject: widget.notificationPayload.title);
+        }
         break;
       case 'Open in Web Browser':
         _launchInBrowser(widget.article.url);
@@ -75,7 +82,9 @@ class _AppWebViewState extends State<AppWebView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.article.title),
+        title: Text(widget.article != null
+            ? widget.article.title
+            : widget.notificationPayload.title),
         leading: IconButton(
           icon: Icon(
             Icons.close,
@@ -130,7 +139,9 @@ class _AppWebViewState extends State<AppWebView> {
 //               ),
               onLoadError: (InAppWebViewController controller, String url,
                   int code, String message) async {},
-              initialUrl: widget.article.url,
+              initialUrl: widget.article != null
+                  ? widget.article.url
+                  : widget.notificationPayload.link,
               initialHeaders: {},
               initialOptions: InAppWebViewGroupOptions(
                   crossPlatform: InAppWebViewOptions(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsApp/provider/loginState.dart';
-import 'package:newsApp/screen/homeScreen/homeMain.dart';
 import 'package:newsApp/widgets/appButton.dart';
 import 'package:newsApp/widgets/inputText.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:rules/rules.dart';
 
@@ -11,6 +9,7 @@ class SingUpUi extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController userNameController;
+  final TextEditingController confirmpasswordController;
   final Function createNewUser;
 
   const SingUpUi(
@@ -18,7 +17,8 @@ class SingUpUi extends StatelessWidget {
       @required this.emailController,
       @required this.passwordController,
       @required this.userNameController,
-      @required this.createNewUser})
+      @required this.createNewUser,
+      @required this.confirmpasswordController})
       : super(key: key);
 
   @override
@@ -90,21 +90,21 @@ class SingUpUi extends StatelessWidget {
                             return null;
                           }
                         }),
-                    InputText(
-                        textEditingController: passwordController,
-                        password: false,
-                        hint: "Confirm Password",
-                        validator: (password) {
-                          final passWordRule = Rule(password,
-                              name: 'Confirm Password',
-                              isRequired: true,
-                              minLength: 6);
-                          if (passWordRule.hasError) {
-                            return passWordRule.error;
-                          } else {
-                            return null;
-                          }
-                        }),
+                    // InputText(
+                    //     textEditingController: confirmpasswordController,
+                    //     password: true,
+                    //     hint: "Confirm Password",
+                    //     validator: (password) {
+                    //       final passWordRule = Rule(password,
+                    //           name: 'Confirm Password',
+                    //           isRequired: true,
+                    //           minLength: 6);
+                    //       if (passWordRule.hasError) {
+                    //         return passWordRule.error;
+                    //       } else {
+                    //         return null;
+                    //       }
+                    //     }),
                     SizedBox(height: 8),
                     Consumer<LoginStateProvider>(
                       builder: (context, loginStateProvider, child) {
@@ -116,7 +116,8 @@ class SingUpUi extends StatelessWidget {
                               buttonText: "Sing Up",
                               function: () {
                                 if (_formKey.currentState.validate()) {
-                                  createNewUser(loginStateProvider.addUser);
+                                  createNewUser(loginStateProvider.addUser,
+                                      loginStateProvider.getUserData);
                                 }
                               },
                             ),

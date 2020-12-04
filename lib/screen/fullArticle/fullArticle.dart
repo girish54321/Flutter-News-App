@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:newsApp/modal/articleListResponse.dart';
 import 'package:newsApp/screen/appWebVIew/appWebView.dart';
-import 'package:newsApp/widgets/articleListItem.dart';
 import 'package:page_transition/page_transition.dart';
 
 class FullArticle extends StatefulWidget {
@@ -31,8 +30,9 @@ class _FullArticleState extends State<FullArticle> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    /*24 is for notification bar on Android*/
+    // ignore: unused_local_variable
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // ignore: unused_local_variable
     final double itemWidth = size.width / 2;
     return Scaffold(
         body: ExpandableBottomSheet(

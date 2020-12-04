@@ -8,10 +8,6 @@ class LoginStateProvider with ChangeNotifier {
   var userData;
   AppUser user;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  // CollectionReference favSong =
-  //     FirebaseFirestore.instance.collection('favSong');
-  // CollectionReference clientId =
-  //     FirebaseFirestore.instance.collection('clientId');
 
   LoginStateProvider() {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -38,6 +34,9 @@ class LoginStateProvider with ChangeNotifier {
     print("CHNECN USER");
     logedIn = state;
     print(state);
+    if (state) {
+      getUserData();
+    }
     LoginStateProvider();
     notifyListeners();
   }
@@ -54,6 +53,7 @@ class LoginStateProvider with ChangeNotifier {
         print('Document exists on the database');
         logedIn = true;
         notifyListeners();
+        getUserData();
         return true;
       } else {
         users.doc(userId).set({
@@ -61,9 +61,11 @@ class LoginStateProvider with ChangeNotifier {
           'email': email,
           "imageUrl": imageUrl,
           'user_id': userId,
+          "admin": false
         }).then((value) {
           logedIn = true;
           notifyListeners();
+          getUserData();
           print("Added");
           changeLoginState(true);
           return true;

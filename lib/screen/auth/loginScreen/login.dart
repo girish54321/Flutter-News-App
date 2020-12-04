@@ -12,8 +12,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // FirebaseAuth auth = FirebaseAuth.instance;
-  // CollectionReference users = FirebaseFirestore.instance.collection('users');
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -29,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // ignore: missing_return
   Future<UserCredential> signInWithGoogle(Function createUser) async {
     try {
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -43,16 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       UserCredential newUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      print("ONLY USR-----------------------------");
-      print(newUser.user.displayName);
-      print(newUser.user.email);
-      print(newUser.user.photoURL);
-      // print(
-      //     "NEW USER-------------------------------------------->>>>>>>>>>>>>>>>>>");
-      // print(newUser.additionalUserInfo.profile);
-      // print(
-      //     "credential----------------------------------------->>>>>>>>>>>>>>>>>>>");
-      // print(credential);
 
       createUser(newUser.user.uid, newUser.user.displayName, newUser.user.email,
           newUser.user.photoURL);
@@ -73,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Helper().showSnackBar('Coming Soon', text, context, true);
   }
 
-  userLogin() async {
+  userLogin(Function getUserData) async {
     await Helper().showLoadingDilog(context).show();
     try {
       // ignore: unused_local_variable
@@ -82,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: emailController.text.trim(),
               password: passwordController.text.trim());
       await Helper().showLoadingDilog(context).hide();
+      getUserData();
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

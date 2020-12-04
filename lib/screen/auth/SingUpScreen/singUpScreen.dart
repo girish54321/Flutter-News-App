@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:newsApp/helper/helper.dart';
 import 'package:newsApp/screen/auth/SingUpScreen/singUpUi.dart';
+import 'package:newsApp/screen/homeScreen/homeMain.dart';
+
 // import 'package:musicPlayer/helper/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:musicPlayer/screen/auth/SingUpScreen/singUpUi.dart';
@@ -14,9 +16,10 @@ class _SingUpScreenState extends State<SingUpScreen> {
   // FirebaseAuth auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmpasswordController = TextEditingController();
   final userNameController = TextEditingController();
 
-  createNewUser(Function addUser) async {
+  createNewUser(Function addUser, Function getUserData) async {
     await Helper().showLoadingDilog(context).show();
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -27,9 +30,16 @@ class _SingUpScreenState extends State<SingUpScreen> {
       addUser(userCredential.user.uid, userNameController.text.trim(),
           emailController.text.trim(), null);
 
-      Navigator.of(context).pop();
       await Helper().showLoadingDilog(context).hide();
     } on FirebaseAuthException catch (e) {
+      getUserData();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomeMain(),
+        ),
+        (route) => false,
+      );
       await Helper().showLoadingDilog(context).hide();
       if (e.code == 'weak-password') {
         Helper().showSnackBar(
@@ -57,11 +67,11 @@ class _SingUpScreenState extends State<SingUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingUpUi(
-        createNewUser: createNewUser,
-        emailController: emailController,
-        passwordController: passwordController,
-        userNameController: userNameController,
-      ),
+          createNewUser: createNewUser,
+          emailController: emailController,
+          passwordController: passwordController,
+          userNameController: userNameController,
+          confirmpasswordController: confirmpasswordController),
     );
   }
 }

@@ -5,7 +5,9 @@ import 'package:newsApp/widgets/appButton.dart';
 import 'package:newsApp/widgets/inputText.dart';
 import 'package:newsApp/widgets/socailButton.dart';
 import 'package:provider/provider.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rules/rules.dart';
+import 'package:newsApp/screen/auth/SingUpScreen/singUpScreen.dart';
 
 class LoginUi extends StatelessWidget {
   final TextEditingController emailController;
@@ -101,7 +103,7 @@ class LoginUi extends StatelessWidget {
                               buttonText: "Log In",
                               function: () {
                                 if (_formKey.currentState.validate()) {
-                                  userLogin();
+                                  userLogin(loginStateProvider.getUserData);
                                 }
                               },
                             ),
@@ -158,11 +160,11 @@ class LoginUi extends StatelessWidget {
                     SizedBox(height: 18),
                     InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     PageTransition(
-                        //         type: PageTransitionType.rightToLeft,
-                        //         child: SingUpScreen()));
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: SingUpScreen()));
                       },
                       child: Center(
                         child: Text(

@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:newsApp/screen/changePassword/changePasswordScreen.dart';
+import 'package:newsApp/provider/loginState.dart';
+import 'package:newsApp/screen/admin/addNewPost.dart';
 import 'package:newsApp/screen/settingScreen/settingsScreen.dart';
+import 'package:newsApp/widgets/articleListItem.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import 'listTitleText.dart';
 
@@ -26,9 +30,14 @@ class DrawerHeaderView extends StatelessWidget {
               }
               break;
 
-            case 'Change Password':
+            case 'Add New Post':
               {
-                //statements;
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: AddNewPost()));
               }
               break;
 
@@ -43,70 +52,99 @@ class DrawerHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Container(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 12),
-                height: 140,
-                child: Center(
+    return Consumer<LoginStateProvider>(
+      builder: (context, loginStateProvider, child) {
+        return Drawer(
+          child: Container(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                SizedBox(
+                  height: 22,
+                ),
+                SafeArea(
                   child: ListTile(
-                    title: ListTileText(text: "Girish Parate"),
-                    subtitle: ListTileText(text: "Mobile App Devloper"),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+                    leading: loginStateProvider.user.imageUrl != null
+                        ? CachedNetworkImage(
+                            imageUrl: loginStateProvider.user.imageUrl,
+                            imageBuilder: (context, imageProvider) =>
+                                CircleAvatar(
+                                  backgroundImage: imageProvider,
+                                  radius: 42,
+                                ),
+                            placeholder: (context, url) => LodingImage())
+                        : CircleAvatar(
+                            radius: 42,
+                            child: Center(
+                              child: Text(loginStateProvider.user.userName[0]),
+                            ),
+                          ),
+                    title: ListTileText(text: loginStateProvider.user.userName),
+                    subtitle: ListTileText(text: loginStateProvider.user.email),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 14,
+                    ),
                   ),
                 ),
-              ),
+                Divider(),
+                listItem(
+                    "Home",
+                    context,
+                    Icon(
+                      FluentIcons.home_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+                listItem(
+                    "Bookmarks",
+                    context,
+                    Icon(
+                      FluentIcons.bookmark_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+                listItem(
+                    "Settings",
+                    context,
+                    Icon(
+                      FluentIcons.settings_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+                listItem(
+                    "About",
+                    context,
+                    Icon(
+                      FluentIcons.info_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+                loginStateProvider.user.admin
+                    ? listItem(
+                        "Add New Post",
+                        context,
+                        Icon(
+                          FluentIcons.notebook_24_regular,
+                          color: Theme.of(context).accentColor,
+                        ))
+                    : SizedBox(
+                        height: 1,
+                      ),
+                listItem(
+                    "Invite Friends",
+                    context,
+                    Icon(
+                      FluentIcons.share_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+                listItem(
+                    "Rate Us",
+                    context,
+                    Icon(
+                      FluentIcons.star_20_regular,
+                      color: Theme.of(context).accentColor,
+                    )),
+              ],
             ),
-            listItem(
-                "Home",
-                context,
-                Icon(
-                  FluentIcons.home_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-            listItem(
-                "Bookmarks",
-                context,
-                Icon(
-                  FluentIcons.bookmark_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-            listItem(
-                "Settings",
-                context,
-                Icon(
-                  FluentIcons.settings_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-            listItem(
-                "About",
-                context,
-                Icon(
-                  FluentIcons.info_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-            listItem(
-                "Invite Friends",
-                context,
-                Icon(
-                  FluentIcons.share_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-            listItem(
-                "Rate Us",
-                context,
-                Icon(
-                  FluentIcons.star_20_regular,
-                  color: Theme.of(context).accentColor,
-                )),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

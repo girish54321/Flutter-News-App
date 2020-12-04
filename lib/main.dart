@@ -2,13 +2,13 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:newsApp/provider/loginState.dart';
+import 'package:newsApp/provider/newsPost.dart';
 import 'package:newsApp/screen/homeScreen/homeMain.dart';
 import 'package:newsApp/screen/splashScreen/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:newsApp/screen/homeScreen/NotificationPlugin.dart';
 import 'package:newsApp/modal/NotificationPayload.dart';
-import 'dart:convert';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -72,17 +72,19 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<LoginStateProvider>(
             create: (context) => LoginStateProvider()),
+        ChangeNotifierProvider<NewsPost>(create: (context) => NewsPost()),
       ],
       child: Consumer<LoginStateProvider>(
         builder: (context, loginStateProvider, child) {
           return MaterialApp(
-              title: 'Music Players',
+              title: 'News360',
               theme: ThemeData(
                 primarySwatch: generateMaterialColor(Palette.primary),
                 scaffoldBackgroundColor: Colors.white,
               ),
               home: loginStateProvider.logedIn == true
                   ? HomeMain()
+                  // ? AddNewPost()
                   : SplashScreen());
         },
       ),

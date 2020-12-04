@@ -91,8 +91,9 @@ class _ArticleListState extends State<ArticleList> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    /*24 is for notification bar on Android*/
+    // ignore: unused_local_variable
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    // ignore: unused_local_variable
     final double itemWidth = size.width / 2;
     return Scaffold(
         body: _loading
@@ -129,6 +130,7 @@ class _ArticleListState extends State<ArticleList> {
                         (BuildContext context, int index) {
                           Article article = articlesList.articles[index];
                           return ArticleListItem(
+                            animasion: true,
                             title: article.title,
                             date: article.publishedAt,
                             imageUrl: article.urlToImage,

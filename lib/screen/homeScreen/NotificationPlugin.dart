@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -82,10 +81,9 @@ class NotificationPlugin {
           notificationPayload.imageUrl, 'attachment_img.jpg');
       bigPictureStyleInformation = BigPictureStyleInformation(
         FilePathAndroidBitmap(attachmentPicturePath),
-        contentTitle: '<b>Attached Image</b>',
+        contentTitle: '<b>${notificationPayload.title}</b>',
         htmlFormatContentTitle: true,
-        summaryText:
-            '<p>This paragraphcontains a lot of linesin the source code,but the browserignores it.</p>',
+        summaryText: '<p>${notificationPayload.body}</p>',
         htmlFormatSummaryText: true,
       );
 
@@ -103,7 +101,7 @@ class NotificationPlugin {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
-      // styleInformation: bigPictureStyleInformation,
+      styleInformation: bigPictureStyleInformation,
       visibility: NotificationVisibility.public,
       largeIcon: FilePathAndroidBitmap(attachmentPicturePath),
     );

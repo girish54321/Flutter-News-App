@@ -5,20 +5,16 @@ class AppUser {
   final String email;
   final String imageUrl;
   final String userName;
+  final bool admin;
 
-  AppUser({
-    this.userid,
-    this.email,
-    this.imageUrl,
-    this.userName,
-  });
+  AppUser({this.userid, this.email, this.imageUrl, this.userName, this.admin});
 
   factory AppUser.fromDocument(DocumentSnapshot doc) {
     return AppUser(
-      userid: doc['user_id'],
-      email: doc['email'],
-      imageUrl: doc['imageUrl'],
-      userName: doc['userName'],
-    );
+        userid: doc['user_id'],
+        email: doc['email'],
+        imageUrl: doc['imageUrl'],
+        userName: doc['userName'],
+        admin: doc['admin']);
   }
 }

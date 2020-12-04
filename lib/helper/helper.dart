@@ -43,10 +43,10 @@ class Helper {
       message: message,
       backgroundColor: error ? Colors.orange : Theme.of(context).accentColor,
       reverseAnimationCurve: Curves.easeIn,
-      forwardAnimationCurve: Curves.easeInOut,
+      forwardAnimationCurve: Curves.bounceInOut,
       duration: Duration(seconds: 5),
-      margin: EdgeInsets.all(8),
-      borderRadius: 8,
+      // margin: EdgeInsets.all(8),
+      // borderRadius: 8,
     )..show(context);
   }
 

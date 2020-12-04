@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:newsApp/animasions/rightToLeft.dart';
 import 'package:shimmer/shimmer.dart';
@@ -10,6 +9,7 @@ class ArticleListItem extends StatelessWidget {
   final DateTime date;
   final String imageUrl;
   final bool showShado;
+  final bool animasion;
   final Function gotoNewsView;
 
   const ArticleListItem(
@@ -18,74 +18,81 @@ class ArticleListItem extends StatelessWidget {
       @required this.date,
       @required this.imageUrl,
       @required this.showShado,
-      this.gotoNewsView})
+      this.gotoNewsView,
+      @required this.animasion})
       : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return RightToLeft(
-      child: InkWell(
-        onTap: gotoNewsView,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(left: 16, right: 16, bottom: 11),
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Row(
-              children: [
-                imageUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        imageBuilder: (context, imageProvider) => Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover, image: imageProvider),
-                                borderRadius: BorderRadius.circular(2.00),
-                              ),
+  Widget maniView() {
+    return InkWell(
+      onTap: gotoNewsView,
+      child: Card(
+        elevation: 2,
+        margin: EdgeInsets.only(left: 16, right: 16, bottom: 11),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Row(
+            children: [
+              imageUrl != null
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      imageBuilder: (context, imageProvider) => Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  fit: BoxFit.cover, image: imageProvider),
+                              borderRadius: BorderRadius.circular(2.00),
                             ),
-                        placeholder: (context, url) => LodingImage())
-                    : LodingImage(),
-                Container(
-                  height: 100,
-                  padding: EdgeInsets.only(left: 12),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 240,
-                        child: Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "Nexa Book",
-                            fontSize: 16,
-                            color: Color(0xff0f0f0f),
                           ),
+                      placeholder: (context, url) => LodingImage())
+                  : LodingImage(),
+              Container(
+                height: 100,
+                padding: EdgeInsets.only(left: 12),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 240,
+                      child: Text(
+                        title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Nexa Book",
+                          fontSize: 16,
+                          color: Color(0xff0f0f0f),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(Jiffy(date).yMMMMd,
-                            style: TextStyle(
-                              fontFamily: "Nexa Book",
-                              fontSize: 11,
-                              color: Color(0xffc4c4c4),
-                            )),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(Jiffy(date).yMMMMd,
+                          style: TextStyle(
+                            fontFamily: "Nexa Book",
+                            fontSize: 11,
+                            color: Color(0xffc4c4c4),
+                          )),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return animasion
+        ? RightToLeft(
+            child: maniView(),
+          )
+        : maniView();
   }
 }
 

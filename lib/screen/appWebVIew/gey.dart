@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class AppWebView2 extends StatefulWidget {
   AppWebView2({Key key}) : super(key: key);
